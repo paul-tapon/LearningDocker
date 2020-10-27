@@ -1,25 +1,20 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+  
+# https://hub.docker.com/_/microsoft-dotnet-core
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /source
 
-#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
-#For more information, please see https://aka.ms/containercompat
+# copy csproj and restore as distinct layers
+COPY *.sln .
+COPY WebFileAccess/*.csproj ./WebFileAccess/
+RUN dotnet restore -r linux-x64
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+# copy everything else and build app
+COPY WebFileAccess/
+WORKDIR /source/WebFileAccess
+RUN dotnet publish -c release -o /app -r linux-x64 --self-contained false --no-restore
+
+# final stage/image
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
-WORKDIR /src
-COPY ["WebFileAccess/WebFileAccess.csproj", "WebFileAccess/"]
-RUN dotnet restore "WebFileAccess/WebFileAccess.csproj"
-COPY . .
-WORKDIR "/src/WebFileAccess"
-RUN dotnet build "WebFileAccess.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "WebFileAccess.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "WebFileAccess.dll"]
+COPY --from=build /app ./
+ENTRYPOINT ["./WebFileAccess"]
