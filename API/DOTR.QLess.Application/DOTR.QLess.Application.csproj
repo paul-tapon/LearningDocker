@@ -17,4 +17,12 @@
     <ProjectReference Include="..\DOTR.QLess.Domain\DOTR.QLess.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Ticket\GetTicketByNumber\" />
+    <None Remove="Ticket\SimulateTravel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Ticket\GetTicketByNumber\" />
+    <Folder Include="Ticket\SimulateTravel\" />
+  </ItemGroup>
 </Project>

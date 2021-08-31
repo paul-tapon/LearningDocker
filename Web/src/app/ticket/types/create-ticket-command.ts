@@ -1,6 +1,7 @@
 export interface CreateTicketCommand
 {
-    idType:string;
-    idNumber:string;
     ticketType:number;
+    idType:number;
+    seniorIdNumber:string;
+    pwdIdNumber:string;
 }

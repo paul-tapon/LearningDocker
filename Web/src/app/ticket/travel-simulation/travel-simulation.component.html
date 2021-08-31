@@ -1,0 +1,84 @@
+<form class="vertical-form" [formGroup]="simulationFormGroup" (ngSubmit)="proceedButtonClicked()"  autocomplete="off">
+    <h2>Travel Simulation Form</h2>
+    <mat-form-field appearance="fill" >
+        <mat-label>Ticket ID Number</mat-label>
+        <input matInput formControlName="ticketIdNumber" placeholder="Ticket ID Number">
+        <mat-error *ngIf="!simulationFormGroup.controls['ticketIdNumber'].valid && simulationFormGroup.controls['ticketIdNumber'].touched">
+            {{ getErrorTicketNumber() }}
+          </mat-error>
+    </mat-form-field>
+    <ng-template [ngIf]="notFound">
+        <span style="color: red;">Ticket number not found</span>
+    </ng-template>
+    <ng-template [ngIf]="ticket && simulateTravelResult==null">
+        <div class="display-details">    
+            <span class="label">
+              Ticket Number :
+            </span>
+            <span class="value">
+              {{ticket.ticketNumber}}
+            </span>
+        </div>
+        <div class="display-details">    
+            <span class="label">
+              Ticket Type :
+            </span>
+            <span class="value">
+              {{ticket.ticketTypeName}}
+            </span>
+        </div>
+        <div class="display-details">    
+            <span class="label">
+              Balance :
+            </span>
+            <span class="value">
+              {{ticket.balance}}
+            </span>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="simulateTravelResult!=null">
+        <div class="display-details">    
+            <span class="label">
+              Ticket Number :
+            </span>
+            <span class="value">
+              {{simulateTravelResult.ticketNumber}}
+            </span>
+        </div>
+        <div class="display-details">    
+            <span class="label">
+              Ticket Type :
+            </span>
+            <span class="value">
+              {{simulateTravelResult.ticketTypeName}}
+            </span>
+        </div>
+        <div class="display-details">    
+            <span class="label">
+              Previous Balance :
+            </span>
+            <span class="value">
+              {{simulateTravelResult.previousBalance}}
+            </span>
+        </div>
+        <div class="display-details">    
+            <span class="label">
+              New Balance :
+            </span>
+            <span class="value">
+              {{simulateTravelResult.newBalance}}
+            </span>
+        </div>
+    </ng-template>
+    <div style="text-align: center">
+        <button [disabled]="!simulationFormGroup.valid" (click)="showBalance()" type="button" style="margin:10px;" mat-raised-button color="accent">Show Balance</button>
+
+        <button [disabled]="!simulationFormGroup.valid || notFound==true || ticket==null" type="submit" style="margin:10px;" mat-raised-button color="primary">Simulate Travel</button>
+    </div>
+    
+  
+  </form>
+  
+  
+  
+  

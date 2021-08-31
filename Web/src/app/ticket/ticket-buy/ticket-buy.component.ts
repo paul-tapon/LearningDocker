@@ -8,6 +8,7 @@ import { IdType } from 'src/app/ticket/types/IdType'
 
 import {Router} from '@angular/router';
 import { analyzeFile } from '@angular/compiler';
+import { BuyTicketModel } from '../types/buyTicketModel';
 
 
 @Component({
@@ -24,8 +25,13 @@ export class TicketBuyComponent implements OnInit,AfterViewInit, OnDestroy {
 
   ticketTypes : TicketType[];
   selectedTicketType : TicketType =null;
+  selectedIdType : IdType = null;
 
-  datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
+  seniorIdFormat = [/\d/, /\d/, '-', /\d/, /\d/,/\d/,/\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  pwdIdFormat = [/\d/, /\d/,  /\d/, /\d/, '-', /\d/, /\d/,/\d/,/\d/, '-', /\d/, /\d/, /\d/, /\d/];
+
+  seniorIdFormatRegex = "^\\d{2}-\\d{4}-\\d{4}$";
+  pwdIdFormatRegex = "^\\d{4}-\\d{4}-\\d{4}$";
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -55,7 +61,9 @@ export class TicketBuyComponent implements OnInit,AfterViewInit, OnDestroy {
 
     this.ticketBuyForm = this._formBuilder.group({
       ticketType : new FormControl('',Validators.required),
-      idType : new FormControl('')
+      idType : new FormControl(''),
+      seniorCitizenId : new FormControl('',Validators.pattern(this.seniorIdFormatRegex)),
+      pwdId : new FormControl('',Validators.pattern(this.pwdIdFormatRegex))
     })
   }
 
@@ -71,7 +79,6 @@ export class TicketBuyComponent implements OnInit,AfterViewInit, OnDestroy {
   {
    
     if(event.isUserInput) {
-      console.log(ticketType);
 
       this.selectedTicketType = ticketType;
       this._changeDetectorRef.markForCheck();
@@ -94,17 +101,49 @@ export class TicketBuyComponent implements OnInit,AfterViewInit, OnDestroy {
 
   }
 
-  onIdTypeSelectChange(event,ticketType:TicketType)
+  onIdTypeSelectChange(event,idType:IdType)
   {
-   
-    if(event.isUserInput) {
+    if(event.isUserInput)
+    {
+      this.selectedIdType = idType;
+      console.log(idType);
+
+      if(idType.id==1) //Senior
+      {
+        this.ticketBuyForm.controls['seniorCitizenId'].setValidators([Validators.required,Validators.pattern(this.seniorIdFormatRegex)]);
+
+        this.ticketBuyForm.controls['pwdId'].setValue('');
+        this.ticketBuyForm.controls['pwdId'].removeValidators([Validators.required,Validators.pattern(this.pwdIdFormatRegex)]);
+        this.ticketBuyForm.controls['pwdId'].setErrors(null);
+
+      }
+      else
+      {
+        this.ticketBuyForm.controls['pwdId'].setValidators([Validators.required,Validators.pattern(this.pwdIdFormatRegex)]);
+
+        this.ticketBuyForm.controls['seniorCitizenId'].setValue('');
+        this.ticketBuyForm.controls['seniorCitizenId'].removeValidators([Validators.required,Validators.pattern(this.seniorIdFormatRegex)]);
+        this.ticketBuyForm.controls['seniorCitizenId'].setErrors(null);
+
+      }
+
+      this.ticketBuyForm.updateValueAndValidity();
     }
+
   }
 
-  proceedButtonClicked(){
+  proceedButtonClicked()
+  {
+    var buyTicketmodel:BuyTicketModel =  
+    {
+      idType : this.selectedIdType, 
+      seniorIdNumber:this.ticketBuyForm.controls['seniorCitizenId'].value,
+      pwdIdNumber:this.ticketBuyForm.controls['pwdId'].value,
+      ticketType:this.selectedTicketType
+    };
     this
     ._ticketService
-    .buyRegularTicket()
+    .buyTicket(buyTicketmodel)
     .subscribe
     (
       c=> this._router.navigateByUrl("/ticket-confirmation",{ state : {  ticketId: c }})

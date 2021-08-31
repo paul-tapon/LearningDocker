@@ -14,6 +14,7 @@
   </mat-form-field>
 
   <ng-template [ngIf]="selectedTicketType !=null && selectedTicketType.id==2">
+
     <mat-form-field appearance="fill" >
       <mat-label>Select ID Type</mat-label>
       <mat-select  formControlName="idType">
@@ -24,11 +25,22 @@
       <mat-error *ngIf="!ticketBuyForm.controls['idType'].valid && ticketBuyForm.controls['idType'].touched">
         {{ getErrorIdType() }}
       </mat-error>
-  
     </mat-form-field>
-    <mat-form-field appearance="fill" >
-      <input matInput [textMask]="{mask: datemask}"  placeholder="Type a date">
-    </mat-form-field>
+    
+    <ng-template [ngIf]="selectedIdType !=null && selectedIdType.id==1">
+      <mat-form-field appearance="fill" >
+        <mat-label>Senior Citizen Id Number</mat-label>
+        <input matInput [textMask]="{mask: seniorIdFormat}" formControlName="seniorCitizenId" placeholder="Senior Citizen Id Number">
+      </mat-form-field>
+    </ng-template>
+
+    <ng-template [ngIf]="selectedIdType !=null && selectedIdType.id==2">
+      <mat-form-field appearance="fill" >
+        <mat-label>PWD Id Number</mat-label>
+        <input matInput [textMask]="{mask: pwdIdFormat}" formControlName="pwdId" placeholder="PWD Id Number">
+      </mat-form-field>
+    </ng-template>
+    
   </ng-template>
 
   <ng-template [ngIf]="selectedTicketType">

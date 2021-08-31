@@ -6,6 +6,8 @@ import { TicketType } from './types/ticket-type'
 import { Ticket } from './types/ticket';
 import { CreateTicketCommand } from './types/create-ticket-command';
 import { environment } from 'src/environments/environment'
+import { BuyTicketModel } from './types/buyTicketModel';
+import { SimulateTravelResult } from './types/simulate-travel-result';
 
 @Injectable({
     providedIn: 'root'
@@ -31,7 +33,12 @@ export class TicketService
     getTicketById(id:number): Observable<any>
     {
         var apiUrl = environment.baseApiUrl+'/ticket/'+id;
-        console.log(apiUrl);
+        return this._httpClient.get<any>(apiUrl);
+    }
+
+    getTicketByNumber(ticketNumber:string): Observable<any>
+    {
+        var apiUrl = environment.baseApiUrl+'/ticket/'+'getByNumber?ticketNumber='+ticketNumber;
         return this._httpClient.get<any>(apiUrl);
     }
 
@@ -44,13 +51,28 @@ export class TicketService
         );
     }
 
-    buyRegularTicket(): Observable<Ticket> {
-        let postData:CreateTicketCommand =  { idNumber:"",idType:"",ticketType:1};
+    buyTicket(buyTicketModel:BuyTicketModel): Observable<Ticket> {
+        
+        var postData:CreateTicketCommand =  
+        { 
+            seniorIdNumber:buyTicketModel.seniorIdNumber,
+            pwdIdNumber:buyTicketModel.pwdIdNumber,
+            idType:buyTicketModel.idType!=null ? buyTicketModel.idType.id : null,
+            ticketType:buyTicketModel.ticketType.id
+        };
+
         return this
                 ._httpClient
                 .post<Ticket>(environment.baseApiUrl+"/ticket", postData, this.httpOptions);
     }
 
+    simulateTravel(ticketNumber:string): Observable<SimulateTravelResult>
+    {
+        var postData = {ticketNumber};
+        return this
+                ._httpClient
+                .post<SimulateTravelResult>(environment.baseApiUrl+"/ticket/SimulateTravel", postData, this.httpOptions);
+    }
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
@@ -60,4 +82,5 @@ export class TicketService
           return of(result as T);
         };
     }
+    
 }
