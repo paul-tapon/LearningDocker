@@ -1,0 +1,31 @@
+<ng-template [ngIf]="ticket">
+    <div class="message-box">
+        <h3>Thank for using QLESS Transport System, your ticket purchase has been sucessfully processed!</h3>
+        <div class="display-details">    
+            <span class="label">
+              Ticket Number :
+            </span>
+            <span class="value">
+              {{ticket.ticketNumber}}
+            </span>
+        </div>
+        <div class="display-details">    
+            <span class="label">
+              Ticket Type :
+            </span>
+            <span class="value">
+              {{ticket.ticketTypeName}}
+            </span>
+        </div>
+        <div class="display-details">    
+            <span class="label">
+              Initial Load :
+            </span>
+            <span class="value">
+              {{ticket.balance}}
+            </span>
+        </div>
+    </div>
+
+
+  </ng-template>

@@ -1,0 +1,62 @@
+<form class="vertical-form" [formGroup]="ticketBuyForm" (ngSubmit)="proceedButtonClicked()" >
+  <h2>Ticket Buying Form</h2>
+  <mat-form-field appearance="fill" >
+    <mat-label>Select Ticket Type</mat-label>
+    <mat-select formControlName="ticketType">
+      <mat-option (onSelectionChange)="onTicketTypeSelectChange($event,ticketType)" *ngFor="let ticketType of ticketTypes" [value]="ticketType.id">
+        {{ticketType.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="!ticketBuyForm.controls['ticketType'].valid && ticketBuyForm.controls['ticketType'].touched">
+      {{ getErrorTicketType() }}
+    </mat-error>
+
+  </mat-form-field>
+
+  <ng-template [ngIf]="selectedTicketType !=null && selectedTicketType.id==2">
+    <mat-form-field appearance="fill" >
+      <mat-label>Select ID Type</mat-label>
+      <mat-select  formControlName="idType">
+        <mat-option (onSelectionChange)="onIdTypeSelectChange($event,idType)" *ngFor="let idType of idTypes" [value]="idType.id">
+          {{idType.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="!ticketBuyForm.controls['idType'].valid && ticketBuyForm.controls['idType'].touched">
+        {{ getErrorIdType() }}
+      </mat-error>
+  
+    </mat-form-field>
+    <mat-form-field appearance="fill" >
+      <input matInput [textMask]="{mask: datemask}"  placeholder="Type a date">
+    </mat-form-field>
+  </ng-template>
+
+  <ng-template [ngIf]="selectedTicketType">
+    <div class="display-details">    
+        <span class="label">
+          Initial Load :
+        </span>
+        <span class="value">
+          {{selectedTicketType.initialLoad}}
+        </span>
+    </div>
+    <div class="display-details">    
+      <span class="label">
+        Fix Rate :
+      </span>
+      <span class="value">
+        {{selectedTicketType.fixRate}}
+      </span>
+    </div>
+    <!-- <div style="text-align: center">
+      <button (click)="proceedButtonClicked()" style="margin-top: 15px;" mat-raised-button color="primary">Proceed</button>
+    </div> -->
+  </ng-template>
+  <div style="text-align: center">
+    <button [disabled]="!ticketBuyForm.valid" type="submit" style="margin-top: 15px;" mat-raised-button color="primary">Proceed</button>
+  </div>
+
+</form>
+
+
+
