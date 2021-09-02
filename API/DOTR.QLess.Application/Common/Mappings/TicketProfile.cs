@@ -18,7 +18,10 @@ namespace DOTR.QLess.Application.Common.Mappings
             CreateMap<Domain.Entities.Ticket, TicketDto>()
                 .ForMember(
                     dest => dest.TicketTypeName,
-                    opt => opt.MapFrom(a => a.TicketType.Name));
+                    opt => opt.MapFrom(a => a.TicketType.Name))
+                .ForMember(
+                    dest => dest.LastUsedDate,
+                    opt => opt.MapFrom(a => a.LastUsedDate));
 
         }
     }

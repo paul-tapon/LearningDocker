@@ -1,12 +1,18 @@
 using DOTR.QLess.Api.Extensions;
+using DOTR.QLess.Api.Middlewares;
 using DOTR.QLess.Application;
+using DOTR.QLess.Application.Context;
 using DOTR.QLess.Infrastructure;
+using FluentValidation.AspNetCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -40,7 +46,17 @@ namespace DOTR.QLess.Api
 
             services.AddApplication();
             services.AddInfrastructure(Configuration, Environment);
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IQLessDbContext>())
+                .AddNewtonsoftJson(options =>
+                {
+                    var settings = options.SerializerSettings;
+
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+                    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +68,10 @@ namespace DOTR.QLess.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
             app.UseCors(QlessCorsPolicy);
+
 
             app.UseRouting();
 

@@ -7,9 +7,25 @@
             {{ getErrorTicketNumber() }}
           </mat-error>
     </mat-form-field>
+    <mat-form-field appearance="fill" >
+        <mat-label>Choose a travel date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="travelDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     <ng-template [ngIf]="notFound">
         <span style="color: red;">Ticket number not found</span>
     </ng-template>
+
+    <ng-template [ngIf]="simulationErrors">
+      <span style="color: rgb(155, 37, 37);font-weight: bold;">Simulation errors</span>
+      <ul>
+        <li style="color: rgb(155, 37, 37);" *ngFor="let err of simulationErrors; index as i;">
+          {{err}}
+        </li>
+      </ul>
+  </ng-template>
+
     <ng-template [ngIf]="ticket && simulateTravelResult==null">
         <div class="display-details">    
             <span class="label">
@@ -35,7 +51,25 @@
               {{ticket.balance}}
             </span>
         </div>
+        <div class="display-details">    
+            <span class="label">
+              Last Used Date :
+            </span>
+            <span class="value">
+              {{ticket.lastUsedDate | date:'fullDate'}}
+            </span>
+        </div>
+
+        <div class="display-details">    
+          <span class="label">
+            Valid Until
+          </span>
+          <span class="value">
+            {{ticket.validUntil | date:'fullDate'}}
+          </span>
+      </div>
     </ng-template>
+
     <ng-template [ngIf]="simulateTravelResult!=null">
         <div class="display-details">    
             <span class="label">
@@ -67,6 +101,14 @@
             </span>
             <span class="value">
               {{simulateTravelResult.newBalance}}
+            </span>
+        </div>
+        <div class="display-details">    
+            <span class="label">
+              Last Used Date :
+            </span>
+            <span class="value">
+              {{simulateTravelResult.lastUsedDate | date:'fullDate'}}
             </span>
         </div>
     </ng-template>

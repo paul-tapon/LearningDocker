@@ -55,6 +55,7 @@ export class TicketBuyComponent implements OnInit,AfterViewInit, OnDestroy {
         // Update the brands
         this.ticketTypes = ticketTypes;
 
+        console.log(this._changeDetectorRef);
         // Mark for check
         this._changeDetectorRef.markForCheck();
     });

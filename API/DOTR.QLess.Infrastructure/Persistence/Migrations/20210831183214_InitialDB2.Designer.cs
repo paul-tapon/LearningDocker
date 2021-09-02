@@ -4,14 +4,16 @@ using DOTR.QLess.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DOTR.QLess.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(QLessDbContext))]
-    partial class QLessDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210831183214_InitialDB2")]
+    partial class InitialDB2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

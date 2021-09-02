@@ -49,7 +49,8 @@ namespace DOTR.QLess.Infrastructure.Persistence.Seeder
                 InitialLoad = 100,
                 CreatedByAppUserId=1,
                 CreatedDate=DateTime.Now,
-                IsActive = true
+                IsActive = true,
+                ExpirationInMonths =60,
             };
 
             var discountedType = new TicketType
@@ -60,7 +61,8 @@ namespace DOTR.QLess.Infrastructure.Persistence.Seeder
                 InitialLoad = 500,
                 CreatedByAppUserId = 1,
                 CreatedDate = DateTime.Now,
-                IsActive = true
+                IsActive = true,
+                ExpirationInMonths = 36
             };
 
             builder.Entity<TicketType>().HasData(regularType);

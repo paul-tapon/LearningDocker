@@ -12,6 +12,7 @@ namespace DOTR.QLess.Application.Ticket.Shared
         public string TicketTypeName { get; set; }
         public string TicketNumber { get; set; }
         public decimal Balance { get; set; }
+        public DateTime ValidUntil { get; set; }
         public DateTime? LastUsedDate { get; set; }
     }
 }

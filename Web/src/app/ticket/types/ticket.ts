@@ -4,4 +4,6 @@ export interface Ticket
     ticketNumber:string;
     balance:number;
     ticketTypeName:string;
+    validUntil:Date;
+    lastDateUsed:Date;
 }

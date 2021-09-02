@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { TicketType } from './types/ticket-type'
@@ -39,7 +39,26 @@ export class TicketService
     getTicketByNumber(ticketNumber:string): Observable<any>
     {
         var apiUrl = environment.baseApiUrl+'/ticket/'+'getByNumber?ticketNumber='+ticketNumber;
-        return this._httpClient.get<any>(apiUrl);
+        return this._httpClient
+                    .get<any>(apiUrl)
+                    .pipe(
+                        catchError(error => {
+                            
+                            if (error.error instanceof ErrorEvent) {
+                                return throwError(error);
+                            } else {
+                                var httpError:HttpErrorResponse =  error as HttpErrorResponse;
+                                if(httpError != null)
+                                {
+                                    if(httpError.status == 404){
+                                        return of(null);
+                                    }
+                                }
+                            }
+    
+                            return throwError(error);
+                        })
+                    );
     }
 
     getTicketTypes(): Observable<TicketType[]>
@@ -66,12 +85,12 @@ export class TicketService
                 .post<Ticket>(environment.baseApiUrl+"/ticket", postData, this.httpOptions);
     }
 
-    simulateTravel(ticketNumber:string): Observable<SimulateTravelResult>
+    simulateTravel(ticketNumber:string,travelDate:Date): Observable<SimulateTravelResult>
     {
-        var postData = {ticketNumber};
+        var postData = {ticketNumber,travelDate : this.formatDate(travelDate)};
         return this
                 ._httpClient
-                .post<SimulateTravelResult>(environment.baseApiUrl+"/ticket/SimulateTravel", postData, this.httpOptions);
+                .post<any>(environment.baseApiUrl+"/ticket/SimulateTravel", postData, this.httpOptions);
     }
 
     private handleError<T>(operation = 'operation', result?: T) {
@@ -81,6 +100,33 @@ export class TicketService
 
           return of(result as T);
         };
+    }
+
+    private formatDate(date:Date) : string{
+      
+        var day = ('0' + date.getDate()).slice(-2);
+        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        var year = date.getFullYear();
+      
+        return year + '-' + month + '-' + day;
+    }
+
+    private getServerErrorMessage(error: HttpErrorResponse): string {
+        switch (error.status) {
+            case 404: {
+                return `Not Found: ${error.message}`;
+            }
+            case 403: {
+                return `Access Denied: ${error.message}`;
+            }
+            case 500: {
+                return `Internal Server Error: ${error.message}`;
+            }
+            default: {
+                return `Unknown Server Error: ${error.message}`;
+            }
+
+        }
     }
     
 }

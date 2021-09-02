@@ -15,5 +15,7 @@ namespace DOTR.QLess.Domain.Entities
         public decimal InitialLoad { get; set; }
 
         public decimal FixRate { get; set; }
+
+        public int? ExpirationInMonths { get; set; }
     }
 }
