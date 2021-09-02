@@ -46,6 +46,7 @@ namespace DOTR.QLess.Api
 
             services.AddApplication();
             services.AddInfrastructure(Configuration, Environment);
+            services.AddSwaggerGen();
             services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IQLessDbContext>())
                 .AddNewtonsoftJson(options =>
@@ -71,7 +72,15 @@ namespace DOTR.QLess.Api
 
             app.UseMiddleware<CustomExceptionHandlerMiddleware>();
             app.UseCors(QlessCorsPolicy);
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
 
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseRouting();
 
