@@ -5,9 +5,12 @@ using DOTR.QLess.Application.Ticket.Shared;
 using DOTR.QLess.Application.Ticket.SimulateTravel;
 using DOTR.QLess.Application.TicketType.GetTicketTypesQuery;
 using DOTR.QLess.Application.TicketType.Shared;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -16,6 +19,10 @@ namespace DOTR.QLess.Api.Controllers
 {
     public class TicketController : ApiController
     {
+        public TicketController(IMediator mediator, IConfiguration configuration) : base(mediator,configuration)
+        {
+
+        }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -38,9 +45,10 @@ namespace DOTR.QLess.Api.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TicketDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Get([FromQuery]string ticketNumber)
+        public async Task<IActionResult> Get([FromQuery]GetTicketByNumber query)
         {
-            return Ok(await Mediator.Send(new GetTicketByNumber(){ TicketNumber = ticketNumber }));
+            var result = await Mediator.Send(query);
+            return Ok(result);
         }
 
         [HttpPost("SimulateTravel")]
@@ -57,6 +65,11 @@ namespace DOTR.QLess.Api.Controllers
 
     public class TicketTypeController : ApiController
     {
+        public TicketTypeController(IMediator mediator, IConfiguration configuration) : base(mediator, configuration)
+        {
+
+        }
+
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TicketTypeDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

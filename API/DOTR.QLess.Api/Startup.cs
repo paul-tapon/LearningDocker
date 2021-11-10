@@ -19,6 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
+using System.Reflection;
 
 namespace DOTR.QLess.Api
 {
@@ -43,6 +45,7 @@ namespace DOTR.QLess.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(Configuration, QlessCorsPolicy);
+            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 
             services.AddApplication();
             services.AddInfrastructure(Configuration, Environment);

@@ -8,7 +8,7 @@ namespace DOTR.QLess.Domain.Exceptions
         {
         }
         public RecordNotFoundException(string name, string searchKey,string searchValue)
-           : base($"Entity \"{name}\" with search key ({searchKey}), search     value ({searchValue}) was not found.")
+           : base($"Entity \"{name}\" with search key ({searchKey}), search value ({searchValue}) was not found.")
         {
         }
     }

@@ -14,9 +14,27 @@ namespace DOTR.QLess.Api.Controllers
 
         private IConfiguration _configuration;
 
-        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        public ApiController(IMediator mediator,IConfiguration configuration)
+        {
+            _mediator = mediator;
+            _configuration = configuration;
+        }
 
-        protected IConfiguration Configuration => _configuration ??= HttpContext.RequestServices.GetService<IConfiguration>();
+        protected IMediator Mediator
+        {
+            get
+            {
+                return _mediator;
+            }
+        }
+
+        protected IConfiguration Configuration
+        {
+            get
+            {
+                return _configuration;
+            }
+        }
 
         //protected OkObjectResult OkWithPagingMetadata(IPaginationResult paginationResult)
         //{

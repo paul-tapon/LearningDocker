@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTR.QLess.Api", "DOTR.QLess.Api\DOTR.QLess.Api.csproj", "{BAF218F2-2FC6-40BE-BA5F-6412F5E939D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DOTR.QLess.Api", "DOTR.QLess.Api\DOTR.QLess.Api.csproj", "{BAF218F2-2FC6-40BE-BA5F-6412F5E939D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTR.QLess.Domain", "DOTR.QLess.Domain\DOTR.QLess.Domain.csproj", "{4BEE8CF6-F1D3-43C0-8228-FCAFD07339FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DOTR.QLess.Domain", "DOTR.QLess.Domain\DOTR.QLess.Domain.csproj", "{4BEE8CF6-F1D3-43C0-8228-FCAFD07339FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTR.QLess.Application", "DOTR.QLess.Application\DOTR.QLess.Application.csproj", "{08D93197-1CF8-49AD-8B46-230A66F4E843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DOTR.QLess.Application", "DOTR.QLess.Application\DOTR.QLess.Application.csproj", "{08D93197-1CF8-49AD-8B46-230A66F4E843}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTR.QLess.Infrastructure", "DOTR.QLess.Infrastructure\DOTR.QLess.Infrastructure.csproj", "{F591FBFC-99EE-4802-BB17-E21694CE5EB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DOTR.QLess.Infrastructure", "DOTR.QLess.Infrastructure\DOTR.QLess.Infrastructure.csproj", "{F591FBFC-99EE-4802-BB17-E21694CE5EB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FE33D4A3-17D3-4B6F-B770-572124527AB8}"
 EndProject
@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Readme.txt = Readme.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTR.QLess.Tests", "DOTR.QLess.Tests\DOTR.QLess.Tests.csproj", "{E51BAC0E-B3C2-4803-BD18-261C5E7F903D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{F591FBFC-99EE-4802-BB17-E21694CE5EB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F591FBFC-99EE-4802-BB17-E21694CE5EB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F591FBFC-99EE-4802-BB17-E21694CE5EB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E51BAC0E-B3C2-4803-BD18-261C5E7F903D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E51BAC0E-B3C2-4803-BD18-261C5E7F903D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E51BAC0E-B3C2-4803-BD18-261C5E7F903D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E51BAC0E-B3C2-4803-BD18-261C5E7F903D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{4BEE8CF6-F1D3-43C0-8228-FCAFD07339FC} = {FE33D4A3-17D3-4B6F-B770-572124527AB8}
 		{08D93197-1CF8-49AD-8B46-230A66F4E843} = {FE33D4A3-17D3-4B6F-B770-572124527AB8}
 		{F591FBFC-99EE-4802-BB17-E21694CE5EB3} = {FE33D4A3-17D3-4B6F-B770-572124527AB8}
+		{E51BAC0E-B3C2-4803-BD18-261C5E7F903D} = {94CC3DD0-1981-47FD-B627-0F39284CDDB1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25CF5DC8-EEDF-46B5-AB0C-C431FC53CA74}
